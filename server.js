@@ -8,8 +8,6 @@ var exphbs = require('express-handlebars');
 
 var  app = express(),
 
-Object.assign=require('object-assign')
-
 // Engine of Handlebars
 app.engine('hbs', exphbs({
   extname:'hbs',
