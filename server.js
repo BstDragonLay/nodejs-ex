@@ -1,13 +1,25 @@
 //  OpenShift sample Node application
 var express = require('express'),
     fs      = require('fs'),
-    app     = express(),
     eps     = require('ejs'),
     morgan  = require('morgan');
-    
+var exphbs = require('express-handlebars');
+
+
+var  app = express(),
+
 Object.assign=require('object-assign')
 
-app.engine('html', require('ejs').renderFile);
+// Engine of Handlebars
+app.engine('hbs', exphbs({
+  extname:'hbs',
+  defaultLayout: 'main',
+  layoutsDir:__dirname + '/views/layouts'}
+));
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+//
 app.use(morgan('combined'))
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
