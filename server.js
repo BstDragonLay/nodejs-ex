@@ -9,7 +9,8 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var hbs = require('express-handlebars');
 var methodOverride = require('method-override');
-
+//routes
+var index = require('./routes/index');
 
 var  app = express();
 
@@ -115,7 +116,8 @@ app.get('/pagecount', function (req, res) {
     res.send('{ pageCount: -1 }');
   }
 });
-
+//routes
+app.use('/', index);
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
