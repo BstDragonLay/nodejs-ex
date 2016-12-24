@@ -4,6 +4,7 @@ var express = require('express'),
     fs      = require('fs'),
     eps     = require('ejs'),
     morgan  = require('morgan');
+var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var hbs = require('express-handlebars');
