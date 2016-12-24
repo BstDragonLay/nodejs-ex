@@ -4,6 +4,7 @@ var express = require('express'),
     eps     = require('ejs'),
     morgan  = require('morgan');
 var hbs = require('express-handlebars');
+var methodOverride = require('method-override');
 
 
 var  app = express();
@@ -18,6 +19,15 @@ app.engine('hbs', hbs({
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+//methodOverride middlewares
+app.use(methodOverride("_method"));
 //
 app.use(morgan('combined'))
 
