@@ -6,7 +6,9 @@ var express = require('express'),
 var exphbs = require('express-handlebars');
 
 
-var  app = express(),
+var  app = express();
+
+Object.assign=require('object-assign')
 
 // Engine of Handlebars
 app.engine('hbs', exphbs({
