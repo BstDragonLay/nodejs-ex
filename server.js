@@ -4,6 +4,7 @@ var express = require('express'),
     fs      = require('fs'),
     eps     = require('ejs'),
     morgan  = require('morgan');
+var logger = require('morgan');
 var hbs = require('express-handlebars');
 var methodOverride = require('method-override');
 
