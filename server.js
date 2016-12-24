@@ -3,15 +3,14 @@ var express = require('express'),
     fs      = require('fs'),
     eps     = require('ejs'),
     morgan  = require('morgan');
-var exphbs = require('express-handlebars');
+var hbs = require('express-handlebars');
 
 
 var  app = express();
 
-Object.assign=require('object-assign')
 
 // Engine of Handlebars
-app.engine('hbs', exphbs({
+app.engine('hbs', hbs({
   extname:'hbs',
   defaultLayout: 'main',
   layoutsDir:__dirname + '/views/layouts'}
