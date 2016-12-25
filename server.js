@@ -51,7 +51,7 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";
-    
+
     var url = '127.0.0.1:27017/' + process.env.OPENSHIFT_APP_NAME;
 
     // if OPENSHIFT env variables are present, use the available connection info:
@@ -150,7 +150,7 @@ app.use('/app', router_app);
 app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
-  if (!db) {
+  /*if (!db) {
     initDb(function(err){});
   }
   if (db) {
@@ -168,7 +168,7 @@ app.use(function(err, req, res, next){
 });
 initDb(function(err){
   console.log('Error connecting to Mongo. Message:\n'+err);
-});
+});*/
 
 app.listen(port, ip);
 console.log('Server running on http://%s:%s', ip, port);
