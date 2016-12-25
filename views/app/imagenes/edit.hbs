@@ -1,0 +1,16 @@
+<div class="col-md-6">
+  <h2>Nueva imagen</h2>
+  <form action="/app/imagenes/{{imagen.id}}?_method=PUT" method="post">
+    <input type="hidden" value="PUT", name="_method">
+    <div class="form-group">
+      <label for="text">Name</label>
+      <input type="text" class="form-control" id="name" placeholder="Name" name="name" value="{{imagen.title}}">
+    </div>
+  <!-- <div class="form-group">
+        <label for="archivo">File input</label>
+        <input type="file" id="archivo" name="archivo">
+        <p class="help-block">Example block-level help text here.</p>
+    </div>-->
+    <button type="submit" class="btn btn-default" value="Guardar">Editar</button>
+  </form>
+</div>

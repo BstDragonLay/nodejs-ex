@@ -1,0 +1,21 @@
+<div class="container">
+  <h1>Bienvenido {{user.email}}</h1>
+  <div class="row">
+{{#each imagenes}}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img src="/images/{{this._id}}.{{this.extension}}"   alt="">
+      <div class="caption">
+        <h4>{{this.title}}</h4>
+        <p>
+          {{#if this.creator}}
+            <h5>by: <i>{{this.creator.email}}</i></h5>
+          {{/if}}
+        </p>
+      </div>
+    </div>
+  </div>
+{{/each}}
+  </div>
+</div>
+<script src="javascripts/client.js" charset="utf-8"></script>

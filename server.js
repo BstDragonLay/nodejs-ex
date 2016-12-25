@@ -1,42 +1,48 @@
 //  OpenShift sample Node application
-var express = require('express'),
-    path = require('path');
-    fs      = require('fs'),
-    eps     = require('ejs'),
-    morgan  = require('morgan');
-var cookieParser = require('cookie-parser');
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var hbs = require('express-handlebars');
 var methodOverride = require('method-override');
-var mongodb = require('mongodb');
+//express for image in formidable
+var formidable = require('express-formidable');
+//middlewares
+var session_middleware = require('./middlewares/session');
+//jquery
+var jquery = require('jquery');
+//db - models
 var mongoose = require('mongoose');
+var Register = require('./models/users').Register;
+//engine views
+var hbs = require('express-handlebars')
+//session
+var cookieSession = require('cookie-session');
+//var RedisStore = require('connect-redis')(session);
+//var realtime = require('./realtime');
 //routes
 var index = require('./routes/index');
+var users = require('./routes/users');
+var router_app = require('./routes/router_app');
+//servidor http / Socket Server comunication
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
-var  app = express();
+var app = express();
 
+Object.assign=require('object-assign')
 
-// Engine of Handlebars
-app.engine('hbs', hbs({
-  extname:'hbs',
-  defaultLayout: 'main',
-  layoutsDir:__dirname + '/views/layouts'}
-));
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-//methodOverride middlewares
-app.use(methodOverride("_method"));
-//
-app.use(morgan('combined'))
+app.engine('html', require('ejs').renderFile);
+//redis
+/*var sessionMiddleware = session({
+  store: new RedisStore({}),
+  secret: "Hola ladron",
+  saveUninitialized: false,
+  resave: false
+});*/
+//realtime(server, sessionMiddleware);
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
@@ -68,10 +74,10 @@ var db = null,
 var initDb = function(callback) {
   if (mongoURL == null) return;
 
-  var mongodb = require('mongodb');
+  var mongodb = require('mongoose');
   if (mongodb == null) return;
 
-  mongodb.connect(mongoURL, function(err, conn) {
+  mongoose.connect(mongoURL, function(err, conn) {
     if (err) {
       callback(err);
       return;
@@ -85,25 +91,37 @@ var initDb = function(callback) {
     console.log('Connected to MongoDB at: %s', mongoURL);
   });
 };
+// Engine of Handlebars
+app.engine('hbs', hbs({
+  extname:'hbs',
+  defaultLayout: 'main',
+  layoutsDir:__dirname + '/views/layouts'}
+));
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
 
-/*app.get('/', function (req, res) {
-  // try to initialize the db on every request if it's not already
-  // initialized.
-  if (!db) {
-    initDb(function(err){});
-  }
-  if (db) {
-    var col = db.collection('counts');
-    // Create a document with request IP and current time of request
-    col.insert({ip: req.ip, date: Date.now()});
-    col.count(function(err, count){
-      res.render('index', { pageCountMessage : count, dbInfo: dbDetails });
-    });
-  } else {
-    res.render('index', { pageCountMessage : null});
-  }
-});
-
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+//methodOverride middlewares
+app.use(methodOverride("_method"));
+//session
+app.use(cookieSession({
+  name: "session",
+  keys: ["llave-1", "llave-2"]
+}));
+//formidable
+app.use( formidable.parse({ keepExtensions: true }));
+//routes
+app.use('/', index);
+app.use('/users', users);
+app.use('/app', session_middleware);
+app.use('/app', router_app);
+//pagecount
 app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
@@ -117,15 +135,12 @@ app.get('/pagecount', function (req, res) {
   } else {
     res.send('{ pageCount: -1 }');
   }
-});*/
-//routes
-app.use('/', index);
+});
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
   res.status(500).send('Something bad happened!');
 });
-
 initDb(function(err){
   console.log('Error connecting to Mongo. Message:\n'+err);
 });

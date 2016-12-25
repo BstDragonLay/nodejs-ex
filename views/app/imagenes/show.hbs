@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="/images/{{imagen._id}}.{{imagen.extension}}"   alt="">
+        <div class="caption">
+          <h3>{{imagen.title}}</h3>
+          <p>
+            {{#if imagen.creator}}
+              <h5>by: <i>{{imagen.creator.email}}</i></h5>
+            {{/if}}
+          </p>
+          <p>Nombre: {{imagen.creator.name}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

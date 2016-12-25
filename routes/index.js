@@ -1,28 +1,42 @@
 var express = require('express');
-var mongodb = require('mongodb');
-var mongoose = require('mongoose');
-var UserRegister = require('../models/user').UserRegister;
 var router = express.Router();
-
-router.get('/', function(req, res, next){
-  res.render('index', {title: 'APP'});
+//connect to the db
+var Register = require('../models/users').Register;
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'app' });
 });
-//register
+//Register Database
+router.get('/register', function(req, res, next) {
+  res.render('register',{
+  	message: "error en la pagina"
+  });
+});
 router.post('/register', function(req, res, next){
   var items = {
     name: req.body.name,
+    email: req.body.email,
     password: req.body.password
   };
-  var data = new UserRegister(items);
+  var data = new Register(items);
   data.save();
   res.redirect('/');
 });
-//update
-router.get('/get-data', function(req, res, next){
-  UserRegister.find()
-              .then(function(doc){
-                res.render('index', {items: doc});
-            });
+
+//Login Database
+router.get("/login", function(req, res, next){
+  res.render("login");
+});
+router.post('/login', function(req, res){
+	Register.findOne({name:req.body.name, password: req.body.password}, function(err, user){
+		if(err){
+			console.log(String(err));
+
+		}
+		req.session.user_id = user._id;
+		res.redirect('/app');
+	});
+
 });
 
 

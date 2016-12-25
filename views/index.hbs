@@ -1,43 +1,11 @@
-<h1>{{title}}</h1>
-<h3>Login</h3>
-<h3>Register</h3>
-<p>
-  Contador de usuario {{pageCountMessage}} <br>
-  Detalle {{dbInfo}}
-</p>
-
-<div class="container">
-  <div class="col-md-6">
-      <h4>Registro</h4>
-    <form action="/register" method="post">
-  <div class="form-group">
-    <label for="exampleInputEmail1">Ingrese nombre de usuario</label>
-    <input type="text" class="form-control" id="usuario" placeholder="Usuario" name="name">
+<div class="middle">
+  <div class="container ">
+    <div class="jumbotron">
+    <h1> Bienvenido a nuestra APP</h1>
+    <p>
+      <a class="btn btn-primary btn-lg" href="register" role="button">Register</a>
+      <a class="btn btn-primary btn-lg" href="login" role="button">Login</a>
+    </p>
   </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="password" placeholder="Password" name="password">
-  </div>
-  <button type="submit" class="btn btn-default">Registrarse</button>
-</form>
-  </div>
-  <div class="col-md-6">
-    <h3><a href="/get-data">Registros</a></h3>
-    <table class="table">
-      <tr>
-			     <th>Name</th>
-			      <th>Password</th>
-		  </tr>
-			{{#each items}}
-				<tr>
-					<td>
-						{{this.name}}
-					</td>
-					<td>
-						{{this.password}}
-					</td>
-				</tr>
-			{{/each}}
-    </table>
   </div>
 </div>

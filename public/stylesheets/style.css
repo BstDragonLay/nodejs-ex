@@ -1,0 +1,16 @@
+body {
+}
+.middle{
+  margin-top: 100px;
+}
+.space{
+  padding: 5px;
+}
+.link{
+  display: inline-block;
+}
+.link input{
+  background-color: transparent;
+  border: none;
+  color: red;
+}

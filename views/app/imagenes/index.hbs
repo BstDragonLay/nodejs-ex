@@ -1,0 +1,18 @@
+<div class="container">
+  <h1>Todas mis imagenes</h1>
+  {{#each imagenes}}
+  <div class="col-md-3">
+    <div class="panel panel-primary">
+        <div class="panel-body">
+          <h4>{{this.title}}</h4>
+        </div>
+      <div class="panel-footer">
+        <a href="{{../permantlink}}imagenes/{{id}}{{imagenes._id}}/edit">Editar</a>
+        <form class="link" action="{{../permantlink}}imagenes/{{id}}{{imagenes._id}}?_method=DELETE" method="post">
+          <input type="submit" value="Eliminar">
+        </form>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
