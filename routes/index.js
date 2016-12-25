@@ -15,7 +15,7 @@ router.post('/register', function(req, res, next){
   };
   var data = new UserRegister(items);
   data.save();
-  res.redirect('/')
+  res.redirect('/');
 });
 //update
 router.get('/get-data', function(req, res, next){
