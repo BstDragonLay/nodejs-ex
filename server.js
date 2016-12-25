@@ -86,7 +86,7 @@ var initDb = function(callback) {
   });
 };
 
-app.get('/', function (req, res) {
+/*app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
   if (!db) {
@@ -117,7 +117,7 @@ app.get('/pagecount', function (req, res) {
   } else {
     res.send('{ pageCount: -1 }');
   }
-});
+});*/
 //routes
 app.use('/', index);
 // error handling
