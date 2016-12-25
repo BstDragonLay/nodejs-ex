@@ -72,10 +72,10 @@ var db = null,
     dbDetails = new Object();
 
 var initDb = function(callback) {
-  if (mongoURL == null) return;
+/*  if (mongoURL == null) return;
 
   var mongodb = require('mongodb');
-  if (mongodb == null) return;
+  if (mongodb == null) return;*/
 
   mongoose.connect(mongoURL, function(err, conn) {
     if (err) {
