@@ -8,7 +8,7 @@ router.get('/', function(req, res, next){
   res.render('index', {title: 'APP'});
 });
 //register
-router.get('/register', function(req, res, next){
+router.post('/register', function(req, res, next){
   var items = {
     name: req.body.name,
     password: req.body.password
