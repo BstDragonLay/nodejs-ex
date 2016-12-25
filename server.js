@@ -89,7 +89,7 @@ var initDb = function(callback) {
   var mongodb = require('mongoose');
   if (mongodb == null) return;
   // Connect to mongodb
-  var connect = function () {
+/*  var connect = function () {
       mongoose.connect(url);
   };
   connect();
@@ -100,8 +100,8 @@ var initDb = function(callback) {
       console.log("Error loading the db - "+ error);
   });
 
-  db.on('disconnected', connect);
- /*mongoose.connect(mongoURL, function(err, conn) {
+  db.on('disconnected', connect);*/
+ mongoose.connect(mongoURL, function(err, conn) {
     if (err) {
       callback(err);
       return;
@@ -113,7 +113,7 @@ var initDb = function(callback) {
     dbDetails.type = 'MongoDB';
 
     console.log('Connected to MongoDB at: %s', mongoURL);
-  });*/
+  });
 };
 // Engine of Handlebars
 app.engine('hbs', hbs({
