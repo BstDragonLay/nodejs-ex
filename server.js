@@ -9,6 +9,8 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var hbs = require('express-handlebars');
 var methodOverride = require('method-override');
+var mongodb = require('mongodb');
+var mongoose = require('mongoose');
 //routes
 var index = require('./routes/index');
 
