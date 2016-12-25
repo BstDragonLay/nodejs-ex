@@ -34,7 +34,7 @@ var app = express();
 
 Object.assign=require('object-assign')
 
-app.engine('html', require('ejs').renderFile);
+//app.engine('html', require('ejs').renderFile);
 //redis
 /*var sessionMiddleware = session({
   store: new RedisStore({}),
@@ -74,7 +74,7 @@ var db = null,
 var initDb = function(callback) {
   if (mongoURL == null) return;
 
-  var mongodb = require('mongoose');
+  var mongodb = require('mongodb');
   if (mongodb == null) return;
 
   mongoose.connect(mongoURL, function(err, conn) {
