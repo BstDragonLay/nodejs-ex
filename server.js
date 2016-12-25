@@ -147,7 +147,7 @@ app.use('/users', users);
 app.use('/app', session_middleware);
 app.use('/app', router_app);
 //pagecount
-app.get('/pagecount', function (req, res) {
+/*app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
   /*if (!db) {
