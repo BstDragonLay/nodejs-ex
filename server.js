@@ -34,6 +34,9 @@ var app = express();
 
 Object.assign=require('object-assign')
 
+
+
+
 //app.engine('html', require('ejs').renderFile);
 //redis
 /*var sessionMiddleware = session({
@@ -48,8 +51,29 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";
+    
+    var url = '127.0.0.1:27017/' + process.env.OPENSHIFT_APP_NAME;
 
-if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+    // if OPENSHIFT env variables are present, use the available connection info:
+    if (process.env.OPENSHIFT_MONGODB_DB_URL) {
+        url = process.env.OPENSHIFT_MONGODB_DB_URL +
+        process.env.OPENSHIFT_APP_NAME;
+    }
+
+    // Connect to mongodb
+    var connect = function () {
+        mongoose.connect(url);
+    };
+    connect();
+
+    var db = mongoose.connection;
+
+    db.on('error', function(error){
+        console.log("Error loading the db - "+ error);
+    });
+
+    db.on('disconnected', connect);
+/*if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
       mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
       mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
@@ -68,6 +92,7 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
   }
 }
+mongoose.connect(mongoURL, );
 var db = null,
     dbDetails = new Object();
 
@@ -77,7 +102,7 @@ var initDb = function(callback) {
   var mongodb = require('mongodb');
   if (mongodb == null) return;*/
 
-  mongoose.connect(mongoURL, function(err, conn) {
+/*  mongoose.connect(mongoURL, function(err, conn) {
     if (err) {
       callback(err);
       return;
@@ -90,7 +115,7 @@ var initDb = function(callback) {
 
     console.log('Connected to MongoDB at: %s', mongoURL);
   });
-};
+};*/
 // Engine of Handlebars
 app.engine('hbs', hbs({
   extname:'hbs',
