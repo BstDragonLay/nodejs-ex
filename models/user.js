@@ -7,6 +7,6 @@ var userSchema = new Schema({
   name: String,
   password: {type: String, required: true}
 }, {collection: 'UserRegister'});
-var User = moongose.model('User', userSchema);
+var User = mongoose.model('User', userSchema);
 
 module.exports = User;
