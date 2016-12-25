@@ -60,19 +60,7 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
         process.env.OPENSHIFT_APP_NAME;
     }
 
-    // Connect to mongodb
-    var connect = function () {
-        mongoose.connect(url);
-    };
-    connect();
 
-    var db = mongoose.connection;
-
-    db.on('error', function(error){
-        console.log("Error loading the db - "+ error);
-    });
-
-    db.on('disconnected', connect);
 /*if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
       mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
@@ -91,18 +79,29 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
 
   }
-}
-mongoose.connect(mongoURL, );
+}*/
 var db = null,
     dbDetails = new Object();
 
 var initDb = function(callback) {
-/*  if (mongoURL == null) return;
+ if (mongoURL == null) return;
 
-  var mongodb = require('mongodb');
-  if (mongodb == null) return;*/
+  var mongodb = require('mongoose');
+  if (mongodb == null) return;
+  // Connect to mongodb
+  var connect = function () {
+      mongoose.connect(url);
+  };
+  connect();
 
-/*  mongoose.connect(mongoURL, function(err, conn) {
+  var db = mongoose.connection;
+
+  db.on('error', function(error){
+      console.log("Error loading the db - "+ error);
+  });
+
+  db.on('disconnected', connect);
+ /*mongoose.connect(mongoURL, function(err, conn) {
     if (err) {
       callback(err);
       return;
@@ -114,8 +113,8 @@ var initDb = function(callback) {
     dbDetails.type = 'MongoDB';
 
     console.log('Connected to MongoDB at: %s', mongoURL);
-  });
-};*/
+  });*/
+};
 // Engine of Handlebars
 app.engine('hbs', hbs({
   extname:'hbs',
@@ -147,10 +146,10 @@ app.use('/users', users);
 app.use('/app', session_middleware);
 app.use('/app', router_app);
 //pagecount
-/*app.get('/pagecount', function (req, res) {
+app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
-  /*if (!db) {
+  if (!db) {
     initDb(function(err){});
   }
   if (db) {
@@ -168,7 +167,7 @@ app.use(function(err, req, res, next){
 });
 initDb(function(err){
   console.log('Error connecting to Mongo. Message:\n'+err);
-});*/
+});
 
 app.listen(port, ip);
 console.log('Server running on http://%s:%s', ip, port);
