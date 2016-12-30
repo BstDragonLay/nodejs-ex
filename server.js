@@ -32,6 +32,31 @@ var io = require('socket.io').listen(server);
 
 var app = express();
 
+/*mongoose*/
+var mongoose   = require('mongoose');
+
+var url = '127.0.0.1:27017/' + process.env.OPENSHIFT_APP_NAME;
+
+// if OPENSHIFT env variables are present, use the available connection info:
+if (process.env.OPENSHIFT_MONGODB_DB_URL) {
+    url = process.env.OPENSHIFT_MONGODB_DB_URL +
+    process.env.OPENSHIFT_APP_NAME;
+}
+
+// Connect to mongodb
+var connect = function () {
+    mongoose.connect(url);
+};
+connect();
+
+var db = mongoose.connection;
+
+db.on('error', function(error){
+    console.log("Error loading the db - "+ error);
+});
+
+db.on('disconnected', connect);
+
 Object.assign=require('object-assign')
 
 // Engine of Handlebars
@@ -76,7 +101,7 @@ app.use('/app', router_app);
 });*/
 //realtime(server, sessionMiddleware);
 
-var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+/*var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";
@@ -90,7 +115,7 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     }*/
 
 
-if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+/*if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
       mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
       mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
@@ -130,7 +155,7 @@ var initDb = function(callback) {
   });
 
   db.on('disconnected', connect);*/
- mongoose.connect(mongoURL, function(err, conn) {
+/* mongoose.connect(mongoURL, function(err, conn) {
     if (err) {
       callback(err);
       return;
@@ -159,7 +184,7 @@ app.get('/pagecount', function (req, res) {
   } else {
     res.send('{ pageCount: -1 }');
   }
-});
+});*/
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
