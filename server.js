@@ -34,7 +34,36 @@ var app = express();
 
 Object.assign=require('object-assign')
 
+// Engine of Handlebars
+app.engine('hbs', hbs({
+  extname:'hbs',
+  defaultLayout: 'main',
+  layoutsDir:__dirname + '/views/layouts'}
+));
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
 
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+//methodOverride middlewares
+app.use(methodOverride("_method"));
+//session
+app.use(cookieSession({
+  name: "session",
+  keys: ["llave-1", "llave-2"]
+}));
+//formidable
+app.use( formidable.parse({ keepExtensions: true }));
+//routes
+app.use('/', index);
+app.use('/users', users);
+app.use('/app', session_middleware);
+app.use('/app', router_app);
 
 
 //app.engine('html', require('ejs').renderFile);
@@ -115,36 +144,7 @@ var initDb = function(callback) {
     console.log('Connected to MongoDB at: %s', mongoURL);
   });
 };
-// Engine of Handlebars
-app.engine('hbs', hbs({
-  extname:'hbs',
-  defaultLayout: 'main',
-  layoutsDir:__dirname + '/views/layouts'}
-));
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
 
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-//methodOverride middlewares
-app.use(methodOverride("_method"));
-//session
-app.use(cookieSession({
-  name: "session",
-  keys: ["llave-1", "llave-2"]
-}));
-//formidable
-app.use( formidable.parse({ keepExtensions: true }));
-//routes
-app.use('/', index);
-app.use('/users', users);
-app.use('/app', session_middleware);
-app.use('/app', router_app);
 //pagecount
 app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
