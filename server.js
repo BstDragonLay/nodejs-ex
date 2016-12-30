@@ -157,7 +157,7 @@ var initDb = function(callback) {
   });
 
   db.on('disconnected', connect);*/
-/* mongoose.connect(mongoURL, function(err, conn) {
+/*mongoose.connect(mongoURL, function(err, conn) {
     if (err) {
       callback(err);
       return;
@@ -171,7 +171,7 @@ var initDb = function(callback) {
     console.log('Connected to MongoDB at: %s', mongoURL);
   });
 };
-
+*/
 //pagecount
 app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
