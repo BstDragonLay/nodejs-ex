@@ -52,16 +52,16 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";
 
-    var url = '127.0.0.1:27017/' + process.env.OPENSHIFT_APP_NAME;
+  /*  var url = '127.0.0.1:27017/' + process.env.OPENSHIFT_APP_NAME;
 
     // if OPENSHIFT env variables are present, use the available connection info:
     if (process.env.OPENSHIFT_MONGODB_DB_URL) {
         url = process.env.OPENSHIFT_MONGODB_DB_URL +
         process.env.OPENSHIFT_APP_NAME;
-    }
+    }*/
 
 
-/*if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
       mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
       mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
@@ -79,7 +79,7 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
 
   }
-}*/
+}
 var db = null,
     dbDetails = new Object();
 
